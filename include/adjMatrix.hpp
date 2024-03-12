@@ -19,6 +19,13 @@ private:
     // --- variáveis para o método de localização de ciclos com caminhamento ---
     vector<bool> visited;
     vector<int> path;
+    set<string> uniqueCycles;
+    int ia;
+
+    // --- variáveis para contar operações ---
+    int opCountPermutation;
+    int opCountDFSv1;
+    int opCountDFSv2;
 
     // --- PERMUTATION PRIVATE METHODS ---
     bool isCycle(const vector<int>& perm);
@@ -27,14 +34,21 @@ private:
     // --- SEARCH ALGORITHMS PRIVATE METHOD --- 
     void DFSUtil(int v, vector<bool>& visitado);
 
-    // --- SEARCH ALGORITHMS TO FIND CYCLES PRIVATE METHOD --- 
+    // --- SEARCH ALGORITHMS TO FIND CYCLES PRIVATE METHODS --- 
     void dfs(int v, int start, int parent, bool &found);
+    void dfsv2(int v, int start, int parent, bool &found);
+    bool isUniqueCycle(vector<int> path);
 
 public:
     
     // constructor
     adjMatrix(int size);
     adjMatrix(int size, bool isDigraph);
+
+    // getters
+    int getopCountPermutation();
+    int getopCountDFSv1();
+    int getopCountDFSv2();
 
     // Vertex
     bool hasVertex(int v) const override;
@@ -54,6 +68,7 @@ public:
     // Find Cycles
     bool permutationFindCycles() override;
     bool searchAlgortihmFindCycles()override;
+    bool searchAlgortihmFindCyclesv2()override;
 
     //search algorithm
     void BFS(int v) override;

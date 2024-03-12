@@ -8,5 +8,13 @@
 */
 
 #include "adjMatrix.hpp"
+#include "graphGenerator.hpp"
 #include <chrono>
+#include <string>
+#include <fstream>
+#include <iostream>
 using namespace std::chrono;
+
+const string graphTXT = "graphs.txt";
+const string opTimeCSV = "opTime.csv";
+const string opCountCSV = "opCount.csv";

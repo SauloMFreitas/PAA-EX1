@@ -30,6 +30,11 @@ public:
     graph(int size, bool isDigraph) : V(size), digraph(isDigraph){};
     virtual ~graph(){};
 
+    // Getters
+    virtual int getopCountPermutation() = 0;
+    virtual int getopCountDFSv1() = 0;
+    virtual int getopCountDFSv2() = 0;
+
     // Vertex
     virtual bool hasVertex(int v) const = 0;
     virtual void addVertex(int quant) = 0;
@@ -54,6 +59,7 @@ public:
 
     virtual bool permutationFindCycles() = 0;
     virtual bool searchAlgortihmFindCycles() = 0;
+    virtual bool searchAlgortihmFindCyclesv2() = 0;
 
 
     // Debug

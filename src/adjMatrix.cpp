@@ -34,6 +34,24 @@
 
 /*
  * ===========================================================================
+ * =                                 GETTERs                                 =
+ * ===========================================================================
+ */
+
+    int adjMatrix::getopCountPermutation(){
+        return this->opCountPermutation;
+    }
+
+    int adjMatrix::getopCountDFSv1(){
+        return this->opCountPermutation;
+    }
+
+    int adjMatrix::getopCountDFSv2(){
+        return this->opCountPermutation;
+    }
+
+/*
+ * ===========================================================================
  * =                                  VERTEX                                 =
  * ===========================================================================
  */
@@ -307,12 +325,47 @@
 
     /**
      *  @brief método recursivo de busca em profundidade adaptado para localizar um ciclo em um grafo
-     *  @param v O vértice atual na DFS.
-     *  @param start O vértice de início do ciclo potencial.
-     *  @param parent O vértice pai do vértice atual na árvore de DFS, usado para prevenir a volta imediata para o vértice pai.
-     *  @param found - true se pelo menos 1 ciclo foi encontrado
+     *  @param v      - O vértice atual na DFS.
+     *  @param start  - O vértice de início do ciclo potencial.
+     *  @param parent - O vértice pai do vértice atual na árvore de DFS, usado para prevenir 
+     *                  a volta imediata para o vértice pai.
+     *  @param found  - true se pelo menos 1 ciclo foi encontrado
      */
     void adjMatrix::dfs(int v, int start, int parent, bool &found) {
+        visited[v] = true;
+        path.push_back(v);
+        
+        for(int next = 0; next < V; ++next) {
+            if(adjmatrix[v][next] == 1) { // Verifica a existência de uma aresta
+                if(next == start && path.size() > 2) {
+                    found = true;
+                    cout << "ciclo " << ++ia << ": ";
+                    // Encontramos um ciclo, imprima ou salve o ciclo
+                    for(const int& vertex : path) cout << vertex << " ";
+                    cout << start << endl; // Completa o ciclo
+                    continue;
+                }
+                if(!visited[next] && next != parent) {
+                    dfs(next, start, v, found);
+                }
+            }
+        }
+        
+        path.pop_back();
+        visited[v] = false;
+    }
+
+    /**
+     *  @brief método recursivo de busca em profundidade adaptado para localizar ciclos em um grafo
+     *         modificado para filtrar ciclos repetidos e mostrar apenas os ciclos unicos. 
+     *         Objetivo: testar eficiencia da modificação
+     *  @param v      - O vértice atual na DFS.
+     *  @param start  - O vértice de início do ciclo potencial.
+     *  @param parent - O vértice pai do vértice atual na árvore de DFS, usado para prevenir 
+     *                  a volta imediata para o vértice pai.
+     *  @param found  - true se pelo menos 1 ciclo foi encontrado
+     */
+    void adjMatrix::dfsv2(int v, int start, int parent, bool &found) {
     visited[v] = true;
     path.push_back(v);
     
@@ -320,19 +373,54 @@
         if(adjmatrix[v][next] == 1) { // Verifica a existência de uma aresta
             if(next == start && path.size() > 2) {
                 found = true;
-                // Encontramos um ciclo, imprima ou salve o ciclo
-                for(int vertex : path) cout << vertex << " ";
-                cout << start << endl; // Completa o ciclo
+                if (isUniqueCycle(path))
+                {
+                    cout << "ciclo " << ++ia << ": ";
+                    // Encontramos um ciclo, imprima ou salve o ciclo
+                    for(const int& vertex : path) cout << vertex << " ";
+                    cout << start << endl; // Completa o ciclo
+                }
+                
                 continue;
             }
             if(!visited[next] && next != parent) {
-                dfs(next, start, v, found);
+                dfsv2(next, start, v, found);
             }
         }
     }
     
     path.pop_back();
     visited[v] = false;
+    }
+
+    bool adjMatrix::isUniqueCycle(vector<int> path){
+        int n = path.size();
+        vector<int> normalizedCycle = path, reversedCycle = path;
+
+        // Inverte o ciclo para comparação
+        reverse(reversedCycle.begin(), reversedCycle.end());
+
+        // Rotaciona ambos os ciclos para que comecem com o menor vértice
+        rotate(normalizedCycle.begin(), min_element(normalizedCycle.begin(), normalizedCycle.end()), normalizedCycle.end());
+        rotate(reversedCycle.begin(), min_element(reversedCycle.begin(), reversedCycle.end()), reversedCycle.end());
+
+        // Escolhe o menor lexicograficamente entre o ciclo normalizado e o inverso
+        if (reversedCycle < normalizedCycle) {
+            normalizedCycle = reversedCycle;
+        }
+
+        // Constrói a string do ciclo normalizado para verificar a unicidade
+        string cycleStr;
+        for (int v : normalizedCycle) {
+            cycleStr += to_string(v) + " ";
+        }
+
+        // Verifica se o ciclo já foi encontrado antes
+        if (uniqueCycles.find(cycleStr) == uniqueCycles.end()) {
+            uniqueCycles.insert(cycleStr);
+            return true; // Ciclo é único
+        }
+        return false; // Ciclo repetido
     }
 
 
@@ -344,6 +432,7 @@
      *  @return true se existe pelo menos 1 ciclo
      */
     bool adjMatrix::permutationFindCycles(){
+        opCountPermutation = 0;
         int quantity = 0;
         bool found = false;
         vector<int> nodes(V);
@@ -357,9 +446,9 @@
 
             for (auto& s : subsets) {
                 do {
-                    quantity++;
-                    cout << "ciclo " << quantity << ": ";
                     if (isCycle(s)) {
+                        quantity++;
+                        cout << "ciclo " << quantity << ": ";
                         for (int n : s) cout << n << " ";
                         cout << endl;
                         found = true;
@@ -376,11 +465,29 @@
      *  @return true se pelo menos um ciclo foi encontrado
      */
     bool adjMatrix::searchAlgortihmFindCycles() {
+        opCountDFSv1 = 0;
         bool found = false;
+        ia = 0;
         for(int i = 0; i < V; i++) {
             visited.resize(V, false);
             path.clear();
             dfs(i, i, -1, found); // Começa a DFS de cada vértice
+        }
+        return found;
+    }
+
+    /**
+     *  @brief método para encontrar todos os ciclos em um grafo não direcionado por caminhamento, usando DFS(Depth First Search)
+     *  @return true se pelo menos um ciclo foi encontrado
+     */
+    bool adjMatrix::searchAlgortihmFindCyclesv2() {
+        opCountDFSv2 = 0;
+        bool found = false;
+        ia = 0;
+        for(int i = 0; i < V; i++) {
+            visited.resize(V, false);
+            path.clear();
+            dfsv2(i, i, -1, found); // Começa a DFS de cada vértice
         }
         return found;
     }
