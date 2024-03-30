@@ -64,10 +64,10 @@ int main() {
     std::cout << endl;
 
     std::cout << "Qual o numero de grafos que deve ser gerado para teste?\n";
-    std::cout << "Considere um crescimento linear. Por exemplo, 3 significa:\n";
-    std::cout << "- 5 vertices\n";
-    std::cout << "- 4 vertices\n";
-    std::cout << "- 3 vertices\n";
+    std::cout << "Considere um crescimento linear. Por exemplo:\n";
+    std::cout << "- 3 => 5 vertices + 4 vertices + 3 vertices\n";
+    std::cout << "- 4 => 6 vertices + 5 vertices + 4 vertices + 3 vertices\n";
+    std::cout << "- n => n+2 vertices + ... + 3 vertices\n";
     std::cout << "> ";
     cin >> numGraphs;
     std::cout << endl;
