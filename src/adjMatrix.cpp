@@ -43,11 +43,11 @@
     }
 
     int adjMatrix::getopCountDFSv1(){
-        return this->opCountPermutation;
+        return this->opCountDFSv1;
     }
 
     int adjMatrix::getopCountDFSv2(){
-        return this->opCountPermutation;
+        return this->opCountDFSv2;
     }
 
 /*
@@ -316,6 +316,7 @@
         }
         for (int i = index; i < s.size(); i++) {
             subset.push_back(s[i]);
+            opCountPermutation++; // conta operações com vértices no algoritmo de permutação
             findSubsets(s, r, subset, i + 1, subsets);
             subset.pop_back();
         }
@@ -333,6 +334,7 @@
      */
     void adjMatrix::dfs(int v, int start, int parent, bool &found) {
         visited[v] = true;
+        opCountDFSv1++; // conta operações com vértices no algoritmo com caminhamento com ciclos repetidos
         path.push_back(v);
         
         for(int next = 0; next < V; ++next) {
@@ -367,6 +369,7 @@
      */
     void adjMatrix::dfsv2(int v, int start, int parent, bool &found) {
     visited[v] = true;
+    opCountDFSv2++;// conta operações com vértices no algoritmo com caminhamento com ciclos repetidos
     path.push_back(v);
     
     for(int next = 0; next < V; ++next) {
@@ -450,6 +453,7 @@
                         quantity++;
                         cout << "ciclo " << quantity << ": ";
                         for (int n : s) cout << n << " ";
+                        cout << s[0];
                         cout << endl;
                         found = true;
                     }

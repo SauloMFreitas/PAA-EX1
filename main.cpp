@@ -46,7 +46,7 @@ int main()
     cout << endl;
     
     // --- gerar *numGraphs* grafos para teste e guardar ---
-    graphGenerator::generateAndPrintGraphs(numGraphs, graphTXT);
+    //graphGenerator::generateAndPrintGraphs(numGraphs, graphTXT);
 
     // --- abrir arquivo com os grafos escritos ---
     ifstream inFile(graphTXT);
@@ -119,8 +119,8 @@ int main()
         auto duracao_DFSv2 = duration_cast<microseconds>(fim_DFSv2 - inicio_DFSv2);
 
 
-        outFile  << i+1 << numVertex << "," << numEdges << "," << duracao_Permutation.count() << "," << duracao_DFSv1.count() << "," << duracao_DFSv2.count();
-        outFile2 << i+1 << numVertex << "," << numEdges << "," << g->getopCountPermutation()  << "," << g->getopCountDFSv1()  << "," << g->getopCountDFSv2() << endl;
+        outFile  << i+1 << "," << numVertex << "," << numEdges << "," << duracao_Permutation.count() << "," << duracao_DFSv1.count() << "," << duracao_DFSv2.count() << endl;
+        outFile2 << i+1 << "," << numVertex << "," << numEdges << "," << g->getopCountPermutation()  << "," << g->getopCountDFSv1()  << "," << g->getopCountDFSv2() << endl;
     }
     outFile.close();
 
