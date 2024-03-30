@@ -1,6 +1,6 @@
 #include "../include/graphGenerator.hpp"
 
-void graphGenerator::generateAndPrintGraphs(int numberOfGraphs, const string& fileName) {
+void graphGenerator::generateAndPrintGraphs(int numberOfGraphs, const string& fileName, const bool useRand) {
     ofstream outFile(fileName);
     if (!outFile) {
         cerr << "Erro ao abrir o arquivo." << endl;
@@ -17,8 +17,16 @@ void graphGenerator::generateAndPrintGraphs(int numberOfGraphs, const string& fi
 
     for (int g = 1; g <= numberOfGraphs; g++) {
         // Garante que cada novo grafo tem mais vértices e arestas que o anterior
-        int numVertices = prevNumVertices + (rand() % 3 + 1); // Incrementa de 1 a 3 vértices
-        int numEdges = prevNumEdges + (rand() % 3 + 1) + (numVertices - prevNumVertices); // Garante mais arestas que o anterior
+        int numVertices;
+        int numEdges;
+
+        if (useRand) {
+            numVertices = prevNumVertices + (rand() % 3 + 1); // Incrementa de 1 a 3 vértices
+            numEdges = prevNumEdges + (rand() % 3 + 1) + (numVertices - prevNumVertices); // Garante mais arestas que o anterior
+        } else {
+            numVertices = prevNumVertices + 1; // Incrementa de 1 a 3 vértices
+            numEdges = prevNumEdges + 1 + (numVertices - prevNumVertices); // Garante mais arestas que o anterior
+        }
 
         prevNumVertices = numVertices;
         prevNumEdges = numEdges;

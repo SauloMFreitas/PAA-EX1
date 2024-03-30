@@ -11,6 +11,8 @@
 #define GRAPH_MATRIX_HPP
 
 #include "graph.hpp"
+using namespace std;
+
 class adjMatrix : public graph
 {
 private:
@@ -20,7 +22,7 @@ private:
     vector<bool> visited;
     vector<int> path;
     set<string> uniqueCycles;
-    int ia;
+    int cicleCount;
 
     // --- variáveis para contar operações ---
     int opCountPermutation;
@@ -46,9 +48,9 @@ public:
     adjMatrix(int size, bool isDigraph);
 
     // getters
-    int getopCountPermutation();
-    int getopCountDFSv1();
-    int getopCountDFSv2();
+    int getopCountPermutation() override;
+    int getopCountDFSv1() override;
+    int getopCountDFSv2() override;
 
     // Vertex
     bool hasVertex(int v) const override;
