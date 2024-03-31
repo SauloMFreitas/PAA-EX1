@@ -1,6 +1,0 @@
-GraphNumber,VertexNumber,EdgeNumber,PermutationTime(us),DFSTimev1(us),DFSTimev2(us)
-1,3,3,22,15,44
-2,4,5,42,26,64
-3,5,7,159,41,139
-4,6,9,687,69,92
-5,7,11,4416,132,456
