@@ -364,10 +364,6 @@ void adjMatrix::dfsv2(int v, int start, int parent, bool &found) {
                 found = true;
                 if (isUniqueCycle(path)) {
                     ++cicleCount;
-                    // cout << "ciclo " << ++cicleCount << ": ";
-                    // // Encontramos um ciclo, imprima ou salve o ciclo
-                    // for(const int& vertex : path) cout << vertex << " ";
-                    // cout << start << endl; // Completa o ciclo
                 }
                 continue;
             }
@@ -441,11 +437,6 @@ bool adjMatrix::permutationFindCycles() {
             do {
                 if (isCycle(s)) {
                     quantity++;
-                    // cout << "ciclo " << quantity << ": ";
-                    // for (int n : s)
-                    //     cout << n << " ";
-                    // cout << s[0];
-                    // cout << endl;
                     found = true;
                 }
             } while (next_permutation(s.begin(), s.end()));
