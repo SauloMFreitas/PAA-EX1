@@ -7,9 +7,9 @@
       "request": "launch",
       "args": [],
       "stopAtEntry": false,
-      "externalConsole": false,
-      "cwd": "/home/saulo/Documentos/GitHub/PAA-EX1",
-      "program": "/home/saulo/Documentos/GitHub/PAA-EX1/build/Debug/outDebug",
+      "externalConsole": true,
+      "cwd": "c:/Users/tonil/OneDrive/Desktop/PAA - 1/PAA-EX1",
+      "program": "c:/Users/tonil/OneDrive/Desktop/PAA - 1/PAA-EX1/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
